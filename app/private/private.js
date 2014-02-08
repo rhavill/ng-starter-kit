@@ -1,4 +1,4 @@
-angular.module('ngBoilerplate.private', [
+angular.module('ngStarterKit.private', [
       'ui.router',
       //'placeholders',
       'ui.bootstrap'

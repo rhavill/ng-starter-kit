@@ -6,7 +6,7 @@ describe('App', function () {
         return false;
       }
     };
-    beforeEach(module('ngBoilerplate'));
+    beforeEach(module('ngStarterKit'));
     beforeEach(module('login'));
     beforeEach(module('ui.router'));
 

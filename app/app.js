@@ -1,9 +1,9 @@
-angular.module('ngBoilerplate', [
+angular.module('ngStarterKit', [
       //'templates-app',
       //'templates-common',
-      'ngBoilerplate.home',
-      'ngBoilerplate.private',
-      'ngBoilerplate.login',
+      'ngStarterKit.home',
+      'ngStarterKit.private',
+      'ngStarterKit.login',
       'ui.router',
       'ui.directives',
       'login'
