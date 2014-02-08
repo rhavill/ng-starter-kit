@@ -2,7 +2,32 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    build_dir: 'build',
+    compile_dir: 'bin',
     pkg: grunt.file.readJSON('package.json'),
+    copy: {
+      build_appjs: {
+        files: [
+          {
+            //src: [ '<%= app_files.js %>' ],
+            src: [ 'app/**/*.js','common/**/*.js' ],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      }/*,
+      build_vendorjs: {
+        files: [
+          {
+            src: [ '<%= vendor_files.js %>' ],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      }*/
+    },
     concat: {
       options: {
         // define a string to put between each file in the concatenated output
@@ -31,8 +56,9 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat','uglify']);
+  grunt.registerTask('default', ['copy','concat','uglify']);
 
 };
