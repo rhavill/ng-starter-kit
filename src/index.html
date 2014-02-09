@@ -9,7 +9,7 @@
    <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
    <link href="vendor/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 
-<script type="text/javascript" src="vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="vendor/angular/angular.js"></script>
     
     <script type="text/javascript" src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     
@@ -21,19 +21,9 @@
     
     <script type="text/javascript" src="vendor/angular-ui/modules/directives/showhide/showhide.js"></script>
     
-    <script type="text/javascript" src="app/app.js"></script>
-    
-    <script type="text/javascript" src="app/home/home.js"></script>
-    
-    <script type="text/javascript" src="app/login/login.js"></script>
-    
-    <script type="text/javascript" src="app/private/private.js"></script>
-    
-    <script type="text/javascript" src="common/login/login.js"></script>
-    
-    <script type="text/javascript" src="common/login/loginForm.js"></script>
-    
-    <script type="text/javascript" src="common/login/loginLink.js"></script>
+ <% grunt.file.expand({},app_files.js).forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }); %>
     
     <!--script type="text/javascript" src="templates-common.js"></script>
     

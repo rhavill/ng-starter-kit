@@ -4,7 +4,20 @@ module.exports = function(grunt) {
   grunt.initConfig({
     build_dir: 'build',
     compile_dir: 'bin',
+    app_files: {
+      js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
+      jsunit: [ 'src/**/*.spec.js' ],
+
+      atpl: [ 'src/app/**/*.tpl.html' ],
+      ctpl: [ 'src/common/**/*.tpl.html' ],
+
+      html: [ 'src/index.html' ]
+    },
     pkg: grunt.file.readJSON('package.json'),
+    index: {
+      src: '<%= app_files.html %>',  // source template file
+      dest: '<%= build_dir %>/index.html'  // destination file (usually index.html)
+    },
     copy: {
       build_appjs: {
         files: [
@@ -53,12 +66,21 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask( "index", "Generate index.html depending on configuration", function() {
+    var conf = grunt.config('index'),
+        tmpl = grunt.file.read(conf.src);
+
+    grunt.file.write(conf.dest, grunt.template.process(tmpl));
+
+    grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + conf.src + '\'');
+  });
+
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task(s).
-  grunt.registerTask('default', ['copy','concat','uglify']);
+  grunt.registerTask('default', ['index','copy','concat','uglify']);
 
 };
