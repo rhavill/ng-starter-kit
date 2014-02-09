@@ -128,10 +128,10 @@ module.exports = function(grunt) {
   grunt.registerTask( "index", "Generate index.html depending on configuration", function() {
     var conf = grunt.config('index'),
         tmpl = grunt.file.read(conf.src);
-    var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-      console.log(file.replace( dirRE, '' ));
-      return file.replace( dirRE, '' );
-    });
+    // var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
+    //   console.log(file.replace( dirRE, '' ));
+    //   return file.replace( dirRE, '' );
+    // });
 
     grunt.file.write(conf.dest, grunt.template.process(tmpl));
 
@@ -144,7 +144,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-html2js');
 
+  grunt.registerTask( 'build', ['copy','concat','uglify','html2js','index']);
+
   // Default task(s).
-  grunt.registerTask('default', ['copy','concat','uglify','html2js','index']);
+  grunt.registerTask('default', ['build']);
 
 };
