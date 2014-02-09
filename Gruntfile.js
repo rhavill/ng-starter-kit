@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         files: [
           {
             //src: [ '<%= app_files.js %>' ],
-            src: [ 'app/**/*.js','common/**/*.js' ],
+            src: [ 'src/**/*.js','common/**/*.js' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
