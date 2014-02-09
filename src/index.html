@@ -3,8 +3,11 @@
 <head>
     <title ng-bind="pageTitle"></title>
     <meta charset="UTF-8"/>
-   <link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-   <link href="vendor/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+   <!--link href="vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+   <link href="vendor/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet"-->
+    <% grunt.file.expand({},vendor_files.css).forEach( function ( file ) { %>
+        <link href="<%= file %>" rel="stylesheet">
+    <% }); %>
     <% grunt.file.expand({},vendor_files.js).forEach( function ( file ) { %>
         <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>

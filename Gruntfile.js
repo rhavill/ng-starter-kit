@@ -23,6 +23,8 @@ module.exports = function(grunt) {
       'vendor/angular-ui/modules/directives/showhide/showhide.js'
     ],
     css: [
+      'vendor/bootstrap/dist/css/bootstrap.css',
+      'vendor/bootstrap/dist/css/bootstrap-theme.css'
     ],
     assets: [
     ]
