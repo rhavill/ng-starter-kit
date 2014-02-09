@@ -13,6 +13,20 @@ module.exports = function(grunt) {
 
       html: [ 'src/index.html' ]
     },
+  vendor_files: {
+    js: [
+      'vendor/angular/angular.js',
+      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'vendor/angular-ui-router/release/angular-ui-router.js',
+      'vendor/angular-ui/common/module.js',
+      'vendor/angular-ui/modules/directives/route/route.js',
+      'vendor/angular-ui/modules/directives/showhide/showhide.js'
+    ],
+    css: [
+    ],
+    assets: [
+    ]
+  },
     pkg: grunt.file.readJSON('package.json'),
     index: {
       src: '<%= app_files.html %>',  // source template file
