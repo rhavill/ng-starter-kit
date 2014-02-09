@@ -38,14 +38,13 @@ module.exports = function(grunt) {
       build_appjs: {
         files: [
           {
-            //src: [ '<%= app_files.js %>' ],
-            src: [ 'src/**/*.js','common/**/*.js' ],
+            src: [ '<%= app_files.js %>' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
           }
         ]
-      }/*,
+      },
       build_vendorjs: {
         files: [
           {
@@ -55,7 +54,7 @@ module.exports = function(grunt) {
             expand: true
           }
         ]
-      }*/
+      }
     },
     concat: {
       options: {
