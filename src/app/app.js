@@ -1,6 +1,6 @@
 angular.module('ngStarterKit', [
-      //'templates-app',
-      //'templates-common',
+      'templates-app',
+      'templates-common',
       'ngStarterKit.home',
       'ngStarterKit.private',
       'ngStarterKit.login',

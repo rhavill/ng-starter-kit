@@ -13,7 +13,7 @@
         <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
     <% if (isDev) { %>
-        <% grunt.file.expand({},dev_template_js_files).forEach( function ( file ) { %>
+        <% dev_template_js_files.forEach( function ( file ) { %>
             <script type="text/javascript" src="<%= file %>"></script>
         <% }); %>
     <% }; %>

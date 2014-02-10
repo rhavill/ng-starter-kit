@@ -30,8 +30,8 @@ module.exports = function(grunt) {
       ]
     },
     dev_template_js_files: [
-        'build/templates-app.js',
-        'build/templates-common.js'
+        'templates-app.js',
+        'templates-common.js'
     ],
     pkg: grunt.file.readJSON('package.json'),
     index: {

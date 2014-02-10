@@ -1,7 +1,7 @@
 angular.module('login.form', ['ui.directives'])
     .directive('loginForm', function () {
       return {
-        templateUrl: 'common/login/loginForm.tpl.html'
+        templateUrl: 'login/loginForm.tpl.html'
       };
     })
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
