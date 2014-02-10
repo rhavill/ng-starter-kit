@@ -4,15 +4,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     build_dir: 'build',
     compile_dir: 'bin',
-    garbage_files: {
-      js: [ 'build/templates-app.js'],
-      jsunit: [ 'src/**/*.spec.js' ],
-
-      atpl: [ 'src/app/**/*.tpl.html' ],
-      ctpl: [ 'src/common/**/*.tpl.html' ],
-
-      html: [ 'src/index.html' ]
-    },
     app_files: {
       js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
       jsunit: [ 'src/**/*.spec.js' ],
@@ -38,12 +29,10 @@ module.exports = function(grunt) {
       assets: [
       ]
     },
-    template_js_files: {
-      template_js_files: [
-        'templates-app.js',
-        'templates-common.js'
-      ]
-    },
+    dev_template_js_files: [
+        'build/templates-app.js',
+        'build/templates-common.js'
+    ],
     pkg: grunt.file.readJSON('package.json'),
     index: {
       src: '<%= app_files.html %>',  // source template file
@@ -144,7 +133,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-html2js');
 
-  grunt.registerTask( 'build', ['copy','concat','uglify','html2js','index']);
+  grunt.registerTask('build', 'Development build.', function() {
+    grunt.config('isDev', true);
+    grunt.task.run('copy','concat','uglify','html2js','index');
+  });
 
   // Default task(s).
   grunt.registerTask('default', ['build']);

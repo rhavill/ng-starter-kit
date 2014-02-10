@@ -12,14 +12,11 @@
     <% grunt.file.expand({},app_files.js).forEach( function ( file ) { %>
         <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
-    <% grunt.file.expand({},template_js_files.template_js_files).forEach( function ( file ) { %>
-        <script type="text/javascript" src="<%= file %>"></script>
-    <% }); %>
-    <% grunt.file.expand({},garbage_files.js).forEach( function ( file ) { %>
-        <script type="text/javascript" src="<%= file %>"></script>
-    <% }); %>
-    <!--script type="text/javascript" src="templates-common.js"></script>
-    <script type="text/javascript" src="templates-app.js"></script-->
+    <% if (isDev) { %>
+        <% grunt.file.expand({},dev_template_js_files).forEach( function ( file ) { %>
+            <script type="text/javascript" src="<%= file %>"></script>
+        <% }); %>
+    <% }; %>
 </head>
 <body>
 <div class="navbar">
