@@ -6,6 +6,7 @@ angular.module('ngStarterKit', [
       'ngStarterKit.login',
       'ui.router',
       'ui.directives',
+      'ui.bootstrap',
       'login'
     ])
 
@@ -21,6 +22,7 @@ angular.module('ngStarterKit', [
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.navIsCollapsed = true;
       }])
 
     .controller('AppCtrl', function AppCtrl($scope, $location, $state, login) {
