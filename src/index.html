@@ -35,14 +35,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li ui-route="/home" ng-class="{active:$uiRoute}">
+        <li ui-route="/home" ng-class="{active:$state.includes('home')}">
             <a href="#/home"><i class="icon-home"></i>&nbspHome</a>
         </li>
-        <li ui-route="/private" ng-class="{active:$uiRoute}">
+        <li ui-route="/private" ng-class="{active:$state.includes('private')}">
             <a href="#/private"><i class="icon-lock"></i>&nbspPrivate</a>
         </li>
-        <li ui-route="#/login" ng-class="{active:$uiRoute}" login-link></li>
+        <li ui-route="#/login" ng-class="{active:$state.includes('login')}" login-link></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
