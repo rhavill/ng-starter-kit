@@ -11,6 +11,15 @@ angular.module('login.form', ['ui.directives'])
       $scope.user = null;
       // Any error message from failing to login
       $scope.authError = null;
+      $scope.alerts = [];
+
+      $scope.addAlert = function(alert) {
+        $scope.alerts.push(alert);
+      };
+
+      $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+      };      
 
       // Attempt to authenticate the user specified in the form's model
       $scope.login = function () {
@@ -21,6 +30,7 @@ angular.module('login.form', ['ui.directives'])
             // If we get here then the login failed due to bad credentials
             $scope.user = null;
             $scope.authError = 'Bad username or password.';
+            $scope.addAlert({msg: $scope.authError, type: 'danger'});
           }
           else {
             $scope.authError = null;

@@ -20,8 +20,7 @@ module.exports = function(grunt) {
         'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'vendor/angular-ui-router/release/angular-ui-router.js',
         'vendor/angular-ui/common/module.js',
-        'vendor/angular-ui/modules/directives/route/route.js',
-        'vendor/angular-ui/modules/directives/showhide/showhide.js'
+        'vendor/angular-ui/modules/directives/route/route.js'
       ],
       css: [
         'vendor/bootstrap/dist/css/bootstrap.css',
