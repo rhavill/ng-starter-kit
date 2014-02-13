@@ -116,6 +116,29 @@ module.exports = function(grunt) {
         dest: '<%= build_dir %>/templates-common.js'
       }
     },
+    karma: {
+      options: {
+        configFile: '<%= build_dir %>/karma-unit.js'
+      },
+      unit: {
+        runnerPort: 9101,
+        background: true
+      },
+      continuous: {
+        singleRun: true
+      }
+    },
+    karmaconfig: {
+      unit: {
+        dir: '<%= build_dir %>',
+        src: [ 
+          '<%= vendor_files.js %>',
+          '<%= html2js.app.dest %>',
+          '<%= html2js.common.dest %>',
+          'vendor/angular-mocks/angular-mocks.js'
+        ]
+      }
+    },
   });
 
   function filterForJS ( files ) {
@@ -137,15 +160,30 @@ module.exports = function(grunt) {
     grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + conf.src + '\'');
   });
 
+  grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
+    var jsFiles = filterForJS( this.filesSrc );
+    
+    grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', { 
+      process: function ( contents, path ) {
+        return grunt.template.process( contents, {
+          data: {
+            scripts: jsFiles
+          }
+        });
+      }
+    });
+  });
+
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('build', 'Development build.', function() {
     grunt.config('isDev', true);
-    grunt.task.run('copy','concat','uglify','html2js','index');
+    grunt.task.run('copy','concat','uglify','html2js','index','karmaconfig','karma:continuous');
   });
 
   // Default task(s).
