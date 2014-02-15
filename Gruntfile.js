@@ -35,8 +35,18 @@ module.exports = function(grunt) {
     ],
     pkg: grunt.file.readJSON('package.json'),
     index: {
-      src: '<%= app_files.html %>',  // source template file
-      dest: '<%= build_dir %>/index.html'  // destination file (usually index.html)
+      build: {
+        src: '<%= app_files.html %>',  // source template file
+        dest: '<%= build_dir %>/index.html'  // destination file (usually index.html)
+      },
+      compile: {
+        dir: '<%= compile_dir %>',
+        src: [
+          '<%= concat.compile_js.dest %>',
+          '<%= vendor_files.css %>',
+          '<%= recess.compile.dest %>'
+        ]
+      }
     },
     copy: {
       build_appjs: {
@@ -68,6 +78,16 @@ module.exports = function(grunt) {
             expand: true
           }
         ]
+      },
+      compile_assets: {
+        files: [
+          {
+            src: [ '**' ],
+            dest: '<%= compile_dir %>/assets',
+            cwd: '<%= build_dir %>/assets',
+            expand: true
+          }
+        ]
       }
     },
     concat: {
@@ -75,22 +95,33 @@ module.exports = function(grunt) {
         // define a string to put between each file in the concatenated output
         separator: ';'
       },
-      dist: {
-        // the files to concatenate
-        //src: ['src/**/*.js'],
-        src: ['*.js'],
-        // the location of the resulting JS file
-        //dest: 'dist/<%= pkg.name %>.js'
-        dest: '<%= pkg.name %>.js'
+      compile_js: {
+        options: {
+          //banner: '<%= meta.banner %>'
+        },
+        src: [ 
+          '<%= vendor_files.js %>', 
+          'module.prefix', 
+          '<%= build_dir %>/src/**/*.js', 
+          '<%= html2js.app.dest %>', 
+          '<%= html2js.common.dest %>', 
+          '<%= vendor_files.js %>', 
+          'module.suffix' 
+        ],
+        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
     },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
-      build: {
-        src: 'uglify-test.js',
-        dest: 'uglify-test.min.js'
+      compile: {
+        options: {
+          //banner: '<%= meta.banner %>'
+        },
+        files: {
+          '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+        }
       }
     },
     html2js: {
@@ -147,14 +178,20 @@ module.exports = function(grunt) {
     });
   }
 
-  grunt.registerTask( "index", "Generate index.html depending on configuration", function() {
-    var conf = grunt.config('index'),
-        tmpl = grunt.file.read(conf.src);
+  grunt.registerMultiTask( "index", "Generate index.html depending on configuration", function() {
+    // console.log('data: '+this.data+'target: '+this.target);
+    // return;
+    if (this.target == 'build') {
+      var conf = grunt.config('index.build');
+      //console.log(conf);
+      var tmpl = grunt.file.read(conf.src);
+      //console.log('tmpl: '+tmpl);
+      //return;
+    }
     // var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
     //   console.log(file.replace( dirRE, '' ));
     //   return file.replace( dirRE, '' );
     // });
-
     grunt.file.write(conf.dest, grunt.template.process(tmpl));
 
     grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + conf.src + '\'');
@@ -183,7 +220,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', 'Development build.', function() {
     grunt.config('isDev', true);
-    grunt.task.run('copy','concat','uglify','html2js','index','karmaconfig','karma:continuous');
+    grunt.task.run('copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
   });
 
   // Default task(s).
