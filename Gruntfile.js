@@ -35,6 +35,14 @@ module.exports = function(grunt) {
         'templates-common.js'
     ],
     pkg: grunt.file.readJSON('package.json'),
+
+    /**
+     * The directories to delete when `grunt clean` is executed.
+     */
+    clean: [ 
+      '<%= build_dir %>', 
+      '<%= compile_dir %>'
+    ],
     index: {
       build: {
         dest: '<%= build_dir %>/index.html',  // destination file (usually index.html)
@@ -219,6 +227,7 @@ module.exports = function(grunt) {
   });
 
   // Load the plugin that provides the "uglify" task.
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -227,7 +236,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', 'Development build.', function() {
     grunt.config('isDev', true);
-    grunt.task.run('copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
+    grunt.task.run('clean','copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
   });
 
   // Default task(s).
