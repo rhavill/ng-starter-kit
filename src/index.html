@@ -6,9 +6,6 @@
     <% grunt.file.expand({},cssFiles).forEach( function ( file ) { %>
         <link href="<%= file %>" rel="stylesheet">
     <% }); %>
-    <% grunt.file.expand({cwd:baseDir},jsFiles).forEach( function ( file ) { %>
-        <script type="text/javascript" src="<%= file %>"></script>
-    <% }); %>
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -40,5 +37,8 @@
 </nav>
 
 <div class="container" ui-view="main"></div>
+<% grunt.file.expand({cwd:baseDir},jsFiles).forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+<% }); %>
 </body>
 </html>
