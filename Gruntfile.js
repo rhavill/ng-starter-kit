@@ -235,7 +235,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('build', 'Development build.', function() {
-    grunt.config('isDev', true);
+    //grunt.config('isDev', true);
     grunt.task.run('clean','copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
   });
 
