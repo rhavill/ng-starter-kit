@@ -3,20 +3,12 @@
 <head>
     <title ng-bind="pageTitle"></title>
     <meta charset="UTF-8"/>
-    <% grunt.file.expand({},vendor_files.css).forEach( function ( file ) { %>
+    <% grunt.file.expand({},cssFiles).forEach( function ( file ) { %>
         <link href="<%= file %>" rel="stylesheet">
     <% }); %>
-    <% grunt.file.expand({},vendor_files.js).forEach( function ( file ) { %>
+    <% grunt.file.expand({cwd:baseDir},jsFiles).forEach( function ( file ) { %>
         <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
-    <% grunt.file.expand({},app_files.js).forEach( function ( file ) { %>
-        <script type="text/javascript" src="<%= file %>"></script>
-    <% }); %>
-    <% if (isDev) { %>
-        <% dev_template_js_files.forEach( function ( file ) { %>
-            <script type="text/javascript" src="<%= file %>"></script>
-        <% }); %>
-    <% }; %>
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">

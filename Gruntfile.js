@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     build_dir: 'build',
     compile_dir: 'bin',
+    src_dir: 'src',
     app_files: {
       js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
       jsunit: [ 'src/**/*.spec.js' ],
@@ -11,7 +12,7 @@ module.exports = function(grunt) {
       atpl: [ 'src/app/**/*.tpl.html' ],
       ctpl: [ 'src/common/**/*.tpl.html' ],
 
-      html: [ 'src/index.html' ]
+      index: [ 'src/index.html' ]
     },
     vendor_files: {
       js: [
@@ -36,15 +37,22 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     index: {
       build: {
-        src: '<%= app_files.html %>',  // source template file
-        dest: '<%= build_dir %>/index.html'  // destination file (usually index.html)
+        dest: '<%= build_dir %>/index.html',  // destination file (usually index.html)
+        js: [
+          '<%= vendor_files.js %>',
+          'src/**/*.js',
+          '<%= html2js.common.dest %>',
+          '<%= html2js.app.dest %>'
+        ],
+        css: [
+          '<%= vendor_files.css %>'
+        ]
       },
       compile: {
         dir: '<%= compile_dir %>',
         src: [
           '<%= concat.compile_js.dest %>',
-          '<%= vendor_files.css %>',
-          '<%= recess.compile.dest %>'
+          '<%= vendor_files.css %>'
         ]
       }
     },
@@ -179,22 +187,21 @@ module.exports = function(grunt) {
   }
 
   grunt.registerMultiTask( "index", "Generate index.html depending on configuration", function() {
-    // console.log('data: '+this.data+'target: '+this.target);
-    // return;
+    var conf, tmpl, tmplData;
     if (this.target == 'build') {
-      var conf = grunt.config('index.build');
-      //console.log(conf);
-      var tmpl = grunt.file.read(conf.src);
-      //console.log('tmpl: '+tmpl);
-      //return;
+      conf = grunt.config('index.build');
+      tmpl = grunt.file.read(grunt.config('app_files.index'));
+      cssFiles = grunt.config('vendor_files.css');
+      var vendorJsFiles = grunt.config('vendor_files.js');
+      var jsFiles = grunt.config('app_files.js');
+      jsFiles = vendorJsFiles.concat(jssFiles);
+      var templateJsFiles = grunt.config('dev_template_js_files');
+      jsFiles = jsFiles.concat(templateJsFiles);
+      tmplData = {jsFiles:jsFiles,cssFiles:cssFiles,baseDir:grunt.config( 'build_dir' ) };
     }
-    // var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-    //   console.log(file.replace( dirRE, '' ));
-    //   return file.replace( dirRE, '' );
-    // });
-    grunt.file.write(conf.dest, grunt.template.process(tmpl));
+    grunt.file.write(conf.dest, grunt.template.process(tmpl, {data:tmplData}));
 
-    grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + conf.src + '\'');
+    grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + grunt.config('app_files.index') + '\'');
   });
 
   grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
