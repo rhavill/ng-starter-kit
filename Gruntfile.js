@@ -111,6 +111,12 @@ module.exports = function(grunt) {
         // define a string to put between each file in the concatenated output
         separator: ';'
       },
+      compile_css: {
+        src: [
+          '<%= vendor_files.css %>'
+        ],
+        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+      },
       compile_js: {
         options: {
           //banner: '<%= meta.banner %>'
@@ -235,6 +241,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('build', 'Development build.', function() {
+    //grunt.config('isDev', true);
+    grunt.task.run('clean','copy:build_vendorcss','copy:build_vendorjs','copy:build_appjs','html2js','index:build','karmaconfig','karma:continuous');
+  });
+
+  grunt.registerTask('compile', 'Production build.', function() {
     //grunt.config('isDev', true);
     grunt.task.run('clean','copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
   });
