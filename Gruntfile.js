@@ -125,12 +125,12 @@ module.exports = function(grunt) {
         },
         src: [ 
           '<%= vendor_files.js %>', 
-          'module.prefix', 
+          //'module.prefix', 
           '<%= build_dir %>/src/**/*.js', 
           '<%= html2js.app.dest %>', 
           '<%= html2js.common.dest %>', 
-          '<%= vendor_files.js %>', 
-          'module.suffix' 
+          '<%= vendor_files.js %>'
+          //'module.suffix' 
         ],
         dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
@@ -138,6 +138,8 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        //mangle: false,
+        //beautify: true
       },
       compile: {
         options: {
