@@ -57,10 +57,12 @@ module.exports = function(grunt) {
         ]
       },
       compile: {
-        dir: '<%= compile_dir %>',
-        src: [
-          '<%= concat.compile_js.dest %>',
-          '<%= vendor_files.css %>'
+        dest: '<%= compile_dir %>/index.html',
+        js: [
+          'assets/<%= pkg.name %>-<%= pkg.version %>.js'
+        ],
+        css: [
+          'assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
     },
@@ -143,6 +145,7 @@ module.exports = function(grunt) {
         },
         files: {
           '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+          //'<%= concat.compile_css.dest %>': '<%= concat.compile_css.dest %>'
         }
       }
     },
@@ -205,7 +208,7 @@ module.exports = function(grunt) {
     if (this.target == 'build') {
       conf = grunt.config('index.build');
       tmpl = grunt.file.read(grunt.config('app_files.index'));
-      cssFiles = grunt.config('vendor_files.css');
+      var cssFiles = grunt.config('vendor_files.css');
       var vendorJsFiles = grunt.config('vendor_files.js');
       var jsFiles = grunt.config('app_files.js');
       jsFiles = vendorJsFiles.concat(jsFiles);
@@ -213,6 +216,19 @@ module.exports = function(grunt) {
       jsFiles = jsFiles.concat(templateJsFiles);
       tmplData = {jsFiles:jsFiles,cssFiles:cssFiles,baseDir:grunt.config( 'build_dir' ) };
     }
+    else if (this.target == 'compile') {
+      conf = grunt.config('index.compile');
+      tmpl = grunt.file.read(grunt.config('app_files.index'));
+      var cssFiles = grunt.config('index.compile.css');
+      // var vendorJsFiles = grunt.config('vendor_files.js');
+      var jsFiles = grunt.config('index.compile.js');
+      // jsFiles = vendorJsFiles.concat(jsFiles);
+      // var templateJsFiles = grunt.config('dev_template_js_files');
+      // jsFiles = jsFiles.concat(templateJsFiles);
+
+      tmplData = {jsFiles:jsFiles,cssFiles:cssFiles,baseDir:grunt.config( 'compile_dir' )};
+    }
+      console.log(tmplData); 
     grunt.file.write(conf.dest, grunt.template.process(tmpl, {data:tmplData}));
 
     grunt.log.writeln('Generated \'' + conf.dest + '\' from \'' + grunt.config('app_files.index') + '\'');
@@ -247,7 +263,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('compile', 'Production build.', function() {
     //grunt.config('isDev', true);
-    grunt.task.run('clean','copy','concat','uglify','html2js','index:build','karmaconfig','karma:continuous');
+    grunt.task.run('clean','copy','html2js','concat','uglify','index:compile');
   });
 
   // Default task(s).

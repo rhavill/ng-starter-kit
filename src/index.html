@@ -3,7 +3,7 @@
 <head>
     <title ng-bind="pageTitle"></title>
     <meta charset="UTF-8"/>
-    <% grunt.file.expand({},cssFiles).forEach( function ( file ) { %>
+    <% grunt.file.expand({cwd:baseDir},cssFiles).forEach( function ( file ) { %>
         <link href="<%= file %>" rel="stylesheet">
     <% }); %>
 </head>
