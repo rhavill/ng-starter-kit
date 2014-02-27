@@ -135,10 +135,33 @@ module.exports = function(grunt) {
         dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
     },
+    ngmin: {
+      compile: {
+        files: [
+          {
+            src: [ '<%= app_files.js %>' ],
+            cwd: '<%= build_dir %>',
+            dest: '<%= build_dir %>',
+            expand: true
+          }
+        ]
+      },
+      test: {
+        files: [
+          {
+            src: [ '<%= app_files.js %>' ],
+            //src: [ '<%= build_dir %>/src/app/app.js' ],
+            cwd: '<%= build_dir %>',
+            dest: '/tmp',
+            expand: true
+          }
+        ]
+      }
+    },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-        //mangle: false,
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        mangle: true,
         //beautify: true
       },
       compile: {
@@ -257,6 +280,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-ngmin');
 
   grunt.registerTask('build', 'Development build.', function() {
     //grunt.config('isDev', true);
@@ -265,7 +289,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('compile', 'Production build.', function() {
     //grunt.config('isDev', true);
-    grunt.task.run('clean','copy','html2js','concat','uglify','index:compile');
+    grunt.task.run('clean','copy','html2js','ngmin','concat','uglify','index:compile');
+  });
+
+  grunt.registerTask('test', 'Production build.', function() {
+    //grunt.config('isDev', true);
+    grunt.task.run('ngmin:test');
   });
 
   // Default task(s).
