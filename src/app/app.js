@@ -25,7 +25,7 @@ angular.module('ngStarterKit', [
         $rootScope.navIsCollapsed = true;
       }])
 
-    .controller('AppCtrl', function AppCtrl($scope, $location, $state, login) {
+    .controller('AppCtrl', ['$scope', '$location', '$state', 'login', function AppCtrl($scope, $location, $state, login) {
       $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         //console.log('new AppCtrl state:'+toState.name);
         if (angular.isDefined(toState.data.pageTitle)) {
@@ -37,7 +37,7 @@ angular.module('ngStarterKit', [
         }
      });
 
-    })
+    }])
 
 ;
 
