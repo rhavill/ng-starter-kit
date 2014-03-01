@@ -27,27 +27,27 @@ describe('login form', function () {
       }));
 
       it('should set some default values.', function() {
-        expect(scope.authError).toBe(null);
+        expect(scope.alerts.length).toBe(0);
         expect(scope.user).toBe(null);
       });
 
-      it('should unset user and set authentication error after failed login.', function() {
+      it('should unset user and set an alert after failed login.', function() {
         $httpBackend.expectPOST('/login', {username: 'test', password: 'wrong'}).
             respond({id:0});
         scope.user = {username:'test',password:'wrong'};
         scope.login();
         $httpBackend.flush();
-        expect(scope.authError).toBe('Bad username or password.');
+        expect(scope.alerts.length).toBe(1);
         expect(scope.user).toBe(null);
       });
 
-      it('should set user and not set authentication error after successful login.', function() {
+      it('should set user and not set an alert after successful login.', function() {
         $httpBackend.expectPOST('/login', {username: 'test', password: 'right'}).
             respond({id:1, username: 'test'});
         scope.user = {username:'test',password:'right'};
         scope.login();
         $httpBackend.flush();
-        expect(scope.authError).toBe(null);
+        expect(scope.alerts.length).toBe(0);
         expect(scope.user).toEqualData({id:1, username: 'test'});
       });
 
